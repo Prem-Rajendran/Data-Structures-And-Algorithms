@@ -18,12 +18,17 @@
 //     rotate 1 steps to the right: [99,-1,-100,3]
 //     rotate 2 steps to the right: [3,99,-1,-100]
 
+const performance = require('perf_hooks').performance;
 
+// Good 
 function compute(nums, k){
+    let t1 = performance.now();
     let start = nums.length - k;
     let end = nums.length
-    let temp = [...nums]
-    nums = temp.splice(start,end).concat(temp);
+    let temp =  nums.splice(start,end).concat(nums);
+    let t2 = performance.now();
+    console.log("Execution Time RotateV0: " + (t2-t1) + "ms");
+    return temp
 }
 
 function reverse(nums, start, end){
@@ -36,7 +41,10 @@ function reverse(nums, start, end){
     return nums;
 }
 
+// Bad
 function rotate(nums, k){
+
+    let t1 = performance.now();
 
     let length = nums.length -1;
     k %= nums.length;
@@ -45,8 +53,19 @@ function rotate(nums, k){
     reverse(nums,0,k - 1)
     reverse(nums,k,length)
 
+    let t2 = performance.now();
+    console.log("Execution Time RotateV1: " + (t2-t1) + "ms");
     return nums
 }
 
+// Best
+function rotateV2(nums, k){
+    let t1 = performance.now();
+    nums.splice(0,0,...nums.splice(nums.length - k, nums.length));
+    let t2 = performance.now();
+    console.log("Execution Time RotateV2: " + (t2-t1) + "ms");
+    return nums;
+}
+
 //console.log(compute([1,2,3,4,5,6,7],3));
-console.log(rotate([1,2,3,4,5,6,7],3));
+//console.log(rotate([1,2,3,4,5,6,7],3));

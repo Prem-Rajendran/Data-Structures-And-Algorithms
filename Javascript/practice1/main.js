@@ -21,6 +21,18 @@ function compute(array, sum){
     return false;
 }
 
+function compute1(array, sum){
+    let obj = {};
+    for(let i = 0; i < array.length; i++){
+        if(obj[array[i]] != null)
+            return [obj[array[i]],i];
+        else{
+            obj[sum-array[i]] = i;
+        }
+    }
+    return [];
+}
+
 var ARRAY = [1,2,4,4]
 var SUM = 8
-console.log(compute(ARRAY, SUM));
+console.log(compute1(ARRAY, SUM));
